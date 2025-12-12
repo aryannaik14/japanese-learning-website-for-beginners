@@ -1,0 +1,13 @@
+<h1>{{ kana_type }} Flashcards</h1>
+<a href="?type=Hiragana">Hiragana</a> | <a href="?type=Katakana">Katakana</a>
+
+{% for kana in kana_list %}
+    <div>
+        <h2>{{ kana.character }} ({{ kana.romaji }})</h2>
+        {% if kana.audio_file %}
+        <audio controls>
+            <source src="{{ kana.audio_file.url }}" type="audio/mpeg">
+        </audio>
+        {% endif %}
+    </div>
+{% endfor %}

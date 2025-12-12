@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Japanese Grammar</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .nav-link:hover {
+            color: #dc2626; /* red-600 */
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100">
+    
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">日</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">NihonGo</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="flex-1 hidden md:flex justify-center space-x-8">
+                    <a href="{% url 'home' %}" class="nav-link text-gray-700 font-medium">Home</a>
+                    <a href="#" class="nav-link text-gray-700 font-medium">Features</a>
+                    <a href="#" class="nav-link text-gray-700 font-medium">About</a>
+                    <a href="#" class="nav-link text-gray-700 font-medium">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="pt-24 pb-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Basic Grammar: Particles</h1>
+                <p class="text-xl text-gray-600">Understand the building blocks of Japanese sentences.</p>
+            </div>
+
+            <!-- Particles Explanation -->
+            <div class="space-y-8">
+
+                <!-- Particle: は (wa) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">は <span class="text-2xl text-gray-500 font-normal">(wa)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">The <span class="font-semibold">topic marker</span>. It indicates what the sentence is about. It tells the listener, "Hey, we're talking about this thing."</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">A は B です (A wa B desu)</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">わたし<span class="text-red-600 font-bold">は</span>がくせいです。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Watashi <span class="font-semibold">wa</span> gakusei desu.</p>
+                        <p class="text-lg text-gray-800">"I am a student." (As for me, I am a student.)</p>
+                    </div>
+                </div>
+
+                <!-- Particle: が (ga) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">が <span class="text-2xl text-gray-500 font-normal">(ga)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">The <span class="font-semibold">subject marker</span>. It identifies the person or thing performing an action, or emphasizes the subject. It often answers the question "who?" or "what?".</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Subject が Verb (Subject ga Verb)</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">ねこ<span class="text-red-600 font-bold">が</span>います。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Neko <span class="font-semibold">ga</span> imasu.</p>
+                        <p class="text-lg text-gray-800">"There is a cat." (A cat exists.)</p>
+                    </div>
+                </div>
+
+                <!-- Particle: を (wo/o) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">を <span class="text-2xl text-gray-500 font-normal">(wo / o)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">The <span class="font-semibold">object marker</span>. It marks the direct object of a verb, indicating the thing that the action is being done to.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Noun を Verb (Noun o Verb)</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">りんご<span class="text-red-600 font-bold">を</span>たべます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Ringo <span class="font-semibold">o</span> tabemasu.</p>
+                        <p class="text-lg text-gray-800">"I eat an apple."</p>
+                    </div>
+                </div>
+
+                <!-- Particle: に (ni) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">に <span class="text-2xl text-gray-500 font-normal">(ni)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">Indicates a <span class="font-semibold">location, destination, or specific time</span>. It can be translated as "at," "in," "on," or "to."</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Place/Time に Verb (Place/Time ni Verb)</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example (Destination)</p>
+                        <p class="text-2xl text-gray-900">にほん<span class="text-red-600 font-bold">に</span>いきます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Nihon <span class="font-semibold">ni</span> ikimasu.</p>
+                        <p class="text-lg text-gray-800 mb-4">"I am going to Japan."</p>
+
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example (Time)</p>
+                        <p class="text-2xl text-gray-900">しちじ<span class="text-red-600 font-bold">に</span>おきます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Shichi-ji <span class="font-semibold">ni</span> okimasu.</p>
+                        <p class="text-lg text-gray-800">"I wake up at 7 o'clock."</p>
+                    </div>
+                </div>
+                
+                <!-- Particle: も (mo) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">も <span class="text-2xl text-gray-500 font-normal">(mo)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">Means <span class="font-semibold">"too" or "also"</span>. It replaces the particles は (wa), が (ga), and を (o) when you want to say that something is also the case.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Noun も (Noun mo)</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">わたし<span class="text-red-600 font-bold">も</span>がくせいです。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Watashi <span class="font-semibold">mo</span> gakusei desu.</p>
+                        <p class="text-lg text-gray-800">"I am <span class="font-semibold">also</span> a student."</p>
+                    </div>
+                </div>
+
+                <!-- Particle: の (no) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">の <span class="text-2xl text-gray-500 font-normal">(no)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">The <span class="font-semibold">possessive marker</span>. It works like an apostrophe 's' in English to show ownership.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Noun 1 の Noun 2</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">これ<span class="text-red-600 font-bold">は</span>わたし<span class="text-red-600 font-bold">の</span>ほんです。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Kore wa watashi <span class="font-semibold">no</span> hon desu.</p>
+                        <p class="text-lg text-gray-800">"This is <span class="font-semibold">my</span> book."</p>
+                    </div>
+                </div>
+
+                <!-- Particle: へ (e) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">へ <span class="text-2xl text-gray-500 font-normal">(e)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">The <span class="font-semibold">direction marker</span>. It is similar to に (ni) but emphasizes the direction of movement, rather than the arrival point.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Place へ Verb of Movement</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">えき<span class="text-red-600 font-bold">へ</span>いきます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Eki <span class="font-semibold">e</span> ikimasu.</p>
+                        <p class="text-lg text-gray-800">"I am going <span class="font-semibold">towards</span> the station."</p>
+                    </div>
+                </div>
+
+                <!-- Particle: で (de) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">で <span class="text-2xl text-gray-500 font-normal">(de)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">Indicates the <span class="font-semibold">location of an action</span> ("at", "in") or the <span class="font-semibold">means</span> by which an action is done ("by", "with").</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Place/Means で Verb</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example (Location of Action)</p>
+                        <p class="text-2xl text-gray-900">としょかん<span class="text-red-600 font-bold">で</span>べんきょうします。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Toshokan <span class="font-semibold">de</span> benkyoushimasu.</p>
+                        <p class="text-lg text-gray-800 mb-4">"I study <span class="font-semibold">at</span> the library."</p>
+
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example (Means)</p>
+                        <p class="text-2xl text-gray-900">バス<span class="text-red-600 font-bold">で</span>いきます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Basu <span class="font-semibold">de</span> ikimasu.</p>
+                        <p class="text-lg text-gray-800">"I go <span class="font-semibold">by</span> bus."</p>
+                    </div>
+                </div>
+
+                <!-- Particle: と (to) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">と <span class="text-2xl text-gray-500 font-normal">(to)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">Used to list nouns, meaning <span class="font-semibold">"and"</span>. It can also mean <span class="font-semibold">"with"</span> when doing an action with someone.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Noun 1 と Noun 2 / Person と Verb</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example (And)</p>
+                        <p class="text-2xl text-gray-900">パン<span class="text-red-600 font-bold">と</span>たまごをたべます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Pan <span class="font-semibold">to</span> tamago o tabemasu.</p>
+                        <p class="text-lg text-gray-800 mb-4">"I eat bread <span class="font-semibold">and</span> eggs."</p>
+
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example (With)</p>
+                        <p class="text-2xl text-gray-900">ともだち<span class="text-red-600 font-bold">と</span>えいがをみます。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Tomodachi <span class="font-semibold">to</span> eiga o mimasu.</p>
+                        <p class="text-lg text-gray-800">"I will watch a movie <span class="font-semibold">with</span> a friend."</p>
+                    </div>
+                </div>
+
+                <!-- Particle: か (ka) -->
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h2 class="text-4xl font-bold text-red-600 mb-4">か <span class="text-2xl text-gray-500 font-normal">(ka)</span></h2>
+                    <p class="text-lg text-gray-700 mb-4">The <span class="font-semibold">question marker</span>. Adding か to the end of a statement turns it into a question.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Syntax</p>
+                        <p class="text-lg font-mono text-gray-800">Sentence か</p>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Example</p>
+                        <p class="text-2xl text-gray-900">これはペンです<span class="text-red-600 font-bold">か</span>。</p>
+                        <p class="text-md text-gray-600 italic mb-1">Kore wa pen desu <span class="font-semibold">ka</span>.</p>
+                        <p class="text-lg text-gray-800">"Is this a pen<span class="font-semibold">?</span>"</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">日</span>
+                        </div>
+                        <span class="text-xl font-bold">NihonGo</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Making Japanese character learning accessible and effective for absolute beginners.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'home' %}" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Flashcards</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'hiragana' %}" class="text-gray-400 hover:text-white">Hiragana Cards</a></li>
+                        <li><a href="{% url 'katakana' %}" class="text-gray-400 hover:text-white">Katakana Cards</a></li>
+                        <li><a href="{% url 'kanji' %}" class="text-gray-400 hover:text-white">N5 Kanji Cards</a></li>
+                        <li><a href="{% url 'quiz' %}" class="text-gray-400 hover:text-white">Practice Tests</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Learning Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 NihonGo. All rights reserved. Made with ❤️ for Japanese learners worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

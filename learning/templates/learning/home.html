@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NihonGo - Master Japanese with Confidence</title>
+    <meta name="description" content="Learn Japanese language for beginners. Master hiragana, katakana, and N5 kanji with our interactive flashcards." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .btn-primary {
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+        .nav-link {
+            transition: color 0.2s ease;
+        }
+        .mobile-menu {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.open {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white">
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">日</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">NihonGo</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="flex-1 hidden md:flex justify-center items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-red-600 font-medium">Home</a>
+                    <a href="#features" class="nav-link text-gray-700 hover:text-red-600 font-medium">Features</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-red-600 font-medium">About</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-red-600 font-medium">Contact</a>
+                </nav>
+
+                <!-- Auth Buttons -->
+                <div class="hidden md:flex items-center">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-red-700 transition-colors">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login_signup' %}" class="bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-900 transition-colors">
+                            Login / Sign Up
+                        </a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 py-2 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-lg">Home</a>
+                <a href="#features" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-lg">Features</a>
+                <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-lg">About</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-lg">Contact</a>
+                <div class="pt-2">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="block w-full text-center bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login_signup' %}" class="block w-full text-center bg-gray-800 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-900 transition-colors">
+                            Login / Sign Up
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-16 hero-gradient">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                    Master <span class="text-red-600 relative">
+                        Japanese
+                        <div class="absolute -bottom-2 left-0 right-0 h-1 bg-red-600/20 rounded-full"></div>
+                    </span>
+                    <br />for Beginners
+                </h1>
+                
+                {% if user.is_authenticated %}
+                    <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                        Welcome back, {{ user.username }}!
+                    </p>
+                {% endif %}
+
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Start your Japanese journey with hiragana, katakana, and N5 kanji. 
+                    Master the fundamentals through interactive flashcards and structured practice.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="{% if user.is_authenticated %}{% url 'hiragana' %}{% else %}{% url 'login_signup' %}{% endif %}" class="btn-primary bg-red-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-red-700 flex items-center space-x-2">
+                        <span>Begin Your Journey</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    <a href="{% url 'hiragana' %}" class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold text-lg hover:border-red-600 hover:text-red-600">
+                        View Flashcards
+                    </a>
+                </div>
+            </div>
+
+            <!-- Japanese Characters Decoration -->
+            <div class="mt-16 flex justify-center space-x-8 opacity-10">
+                <span class="text-6xl font-light text-gray-400">ひ</span>
+                <span class="text-6xl font-light text-gray-400">ら</span>
+                <span class="text-6xl font-light text-gray-400">が</span>
+                <span class="text-6xl font-light text-gray-400">な</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Language Helper Section -->
+    <section id="ai-helper" class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                AI-Powered Language Helper ✨
+            </h2>
+            <p class="text-xl text-gray-600 mb-8">
+                Ask a question about Japanese grammar, get a definition, or generate a phrase.
+            </p>
+            <div class="space-y-4">
+                <textarea id="promptInput" rows="4" class="w-full p-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-shadow" placeholder="e.g. 'How do you say 'Hello, how are you?' in a polite way?' or 'What is the kanji for mountain?'"></textarea>
+                <div class="flex items-center space-x-4 justify-center">
+                    <button id="generateBtn" class="btn-primary bg-red-600 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-red-700 transition-colors">
+                        Get Help ✨
+                    </button>
+                    <button id="speakBtn" class="bg-gray-900 text-white px-8 py-3 rounded-lg font-semibold text-lg hover:bg-gray-800 transition-colors hidden">
+                        <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728m-2.829-2.828a1 1 0 00-1.414 0l-3.536 3.536a1 1 0 01-1.414 0l-1.414-1.414a1 1 0 010-1.414L10.586 11H8a2 2 0 01-2-2V7a2 2 0 012-2h2.586l1.414-1.414a1 1 0 011.414 0l3.536 3.536a1 1 0 010 1.414z"></path></svg>
+                        Speak Phrase
+                    </button>
+                </div>
+            </div>
+            
+            <div id="loadingIndicator" class="mt-8 text-red-600 hidden">
+                <svg class="animate-spin h-5 w-5 mr-3 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing your request...
+            </div>
+            <div id="geminiOutput" class="mt-8 p-6 bg-white rounded-2xl shadow-xl text-left hidden">
+                <p class="text-gray-800 leading-relaxed"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+                    Perfect for <span class="text-red-600">Beginners</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Master the three essential Japanese writing systems with our comprehensive flashcard system
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Hiragana Mastery</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Learn all 46 hiragana characters with interactive flashcards, stroke order, and pronunciation guides.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Katakana Practice</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Master katakana characters used for foreign words with comprehensive flashcard exercises.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">N5 Kanji Collection</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Study basic kanji characters with meanings, readings, and example words.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Interactive Flashcards</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Engage with dynamic flashcards that adapt to your learning pace and focus on challenging characters.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Basic Grammar</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Learn how to make your first sentance in japanese and learn basic particles.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="card-hover bg-gray-50 p-8 rounded-2xl">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Beginner Friendly</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Designed specifically for absolute beginners with clear explanations and gentle learning curves.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                        Master Japanese <br />
+                        <span class="text-red-600">Fundamentals</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        NihonGo focuses on building a solid foundation in Japanese writing systems. 
+                        Our comprehensive flashcard system helps beginners master hiragana, katakana, 
+                        and essential N5 kanji characters.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Whether you're preparing for your first trip to Japan or starting your 
+                        Japanese language journey, we provide the essential building blocks you need.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700 font-medium">Complete hiragana & katakana sets</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700 font-medium">N5 kanji characters</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <span class="text-gray-700 font-medium">Interactive flashcard system</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="bg-white p-8 rounded-2xl shadow-xl">
+                        <div class="text-center">
+                            <div class="text-4xl mb-4">🇯🇵</div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Start Learning Today</h3>
+                            <p class="text-gray-600 mb-6">
+                                Begin your Japanese journey with our beginner-friendly flashcard system.
+                            </p>
+                            <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700">
+                                Access Flashcards
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-red-600">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                Get Beginner Japanese Learning Tips
+            </h2>
+            <p class="text-xl text-red-100 mb-8">
+                Receive weekly character practice tips, learning strategies, and motivation delivered to your inbox
+            </p>
+            
+            <div class="max-w-md mx-auto">
+                <div class="flex gap-2">
+                    <div class="flex-1 relative">
+                        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            class="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+                        />
+                    </div>
+                    <button class="bg-gray-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">日</span>
+                        </div>
+                        <span class="text-xl font-bold">NihonGo</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Making Japanese character learning accessible and effective for absolute beginners.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Learning -->
+                
+
+                <!-- Support -->
+                <div>
+                    <h3 class="font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Learning Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 NihonGo. All rights reserved. Made with ❤️ for Japanese learners worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            mobileMenu.classList.toggle('open');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const menuIcon = document.getElementById('menu-icon');
+                const closeIcon = document.getElementById('close-icon');
+                
+                mobileMenu.classList.remove('open');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+        
+        const promptInput = document.getElementById('promptInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const speakBtn = document.getElementById('speakBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const geminiOutput = document.getElementById('geminiOutput');
+        const geminiOutputText = geminiOutput.querySelector('p');
+
+        generateBtn.addEventListener('click', generateResponse);
+        speakBtn.addEventListener('click', () => {
+            const textToSpeak = geminiOutputText.textContent;
+            if (textToSpeak) {
+                synthesizeSpeech(textToSpeak);
+            }
+        });
+
+        async function generateResponse() {
+            const userPrompt = promptInput.value;
+            if (!userPrompt) {
+                geminiOutputText.textContent = "Please enter a question or phrase to get help.";
+                geminiOutput.classList.remove('hidden');
+                return;
+            }
+            
+            loadingIndicator.classList.remove('hidden');
+            geminiOutput.classList.add('hidden');
+            speakBtn.classList.add('hidden');
+
+            try {
+                const response = await fetch('{% url "ai_helper" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ prompt: userPrompt })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                const text = result.response;
+
+                geminiOutputText.textContent = text;
+                geminiOutput.classList.remove('hidden');
+
+                const hasJapanese = text.match(/[\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\uFF00-\uFFEF\u4E00-\u9FAF\u3400-\u4DBF]/);
+                if (hasJapanese) {
+                    speakBtn.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error generating response:", error);
+                geminiOutputText.textContent = `An API communication error occurred: ${error.message}`;
+                geminiOutput.classList.remove('hidden');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        async function synthesizeSpeech(textToSpeak) {
+            speakBtn.disabled = true;
+            speakBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            try {
+                // Call the new Django view for TTS
+                const response = await fetch('{% url "tts_view" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ text: textToSpeak })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                const audioData = result.audio_data;
+                const mimeType = result.mime_type;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                    const pcmData = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+                    
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                } else {
+                    throw new Error("Audio generation failed: Invalid response from server.");
+                }
+            } catch (error) {
+                console.error("Error synthesizing speech:", error);
+                // Display error message to the user
+                geminiOutputText.textContent = `Error speaking phrase: ${error.message}`;
+            } finally {
+                speakBtn.disabled = false;
+                speakBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+        
+        // Helper functions for audio processing (PCM to WAV)
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2;
+            const dataLength = pcmData.length * bytesPerSample;
+            const buffer = new ArrayBuffer(44 + dataLength);
+            const view = new DataView(buffer);
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + dataLength, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true); // PCM format
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * numChannels * bytesPerSample, true);
+            view.setUint16(32, numChannels * bytesPerSample, true);
+            view.setUint16(34, bytesPerSample * 8, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, dataLength, true);
+
+            let offset = 44;
+            for (let i = 0; i < pcmData.length; i++) {
+                view.setInt16(offset, pcmData[i], true);
+                offset += 2;
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+    </script>
+</body>
+</html>

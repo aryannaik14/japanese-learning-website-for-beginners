@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kana Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full">
+        <h1 class="text-3xl font-bold text-center text-gray-900 mb-6">Kana Mixed Quiz</h1>
+        <p class="text-center text-gray-600 mb-8">Match the Kana character to its Romaji pronunciation.</p>
+        
+        <form id="quiz-form">
+            <div id="quiz-questions" class="space-y-6">
+                <!-- Quiz questions will be inserted here by JavaScript -->
+            </div>
+            
+            <button type="submit" class="w-full mt-8 bg-red-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-red-700 transition duration-300 shadow-md">
+                Submit Quiz
+            </button>
+        </form>
+
+        <div id="results" class="mt-8 text-center text-lg font-semibold">
+            <!-- Results will be displayed here -->
+        </div>
+
+        <!-- Hidden section that appears when the user passes -->
+        <div id="kanji-unlocked-message" class="hidden mt-4 text-center">
+            <p class="text-green-600 font-bold text-xl mb-4">Congratulations! You have passed the exam and unlocked the Kanji section.</p>
+            <a href="kanji.html" class="inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-blue-700 transition duration-300 shadow-md">Go to Kanji Section</a>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="katakana.html" class="text-red-600 hover:underline">Return to Flashcards</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const quizForm = document.getElementById('quiz-form');
+            const questionsContainer = document.getElementById('quiz-questions');
+            const resultsContainer = document.getElementById('results');
+            const kanjiMessage = document.getElementById('kanji-unlocked-message');
+
+            // Combined data for Hiragana and Katakana
+            const kanaCharacters = {
+                'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
+                'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
+                'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
+                'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
+                'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
+                'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
+                'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
+                'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
+                'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
+                'わ': 'wa', 'を': 'o/wo', 'ん': 'n',
+                'ア': 'a', 'イ': 'i', 'ウ': 'u', 'エ': 'e', 'オ': 'o',
+                'カ': 'ka', 'キ': 'ki', 'ク': 'ku', 'ケ': 'ke', 'コ': 'ko',
+                'サ': 'sa', 'シ': 'shi', 'ス': 'su', 'セ': 'se', 'ソ': 'so',
+                'タ': 'ta', 'チ': 'chi', 'ツ': 'tsu', 'テ': 'te', 'ト': 'to',
+                'ナ': 'na', 'ニ': 'ni', 'ヌ': 'nu', 'ネ': 'ne', 'ノ': 'no',
+                'ハ': 'ha', 'ヒ': 'hi', 'フ': 'fu', 'ヘ': 'he', 'ホ': 'ho',
+                'マ': 'ma', 'ミ': 'mi', 'ム': 'mu', 'メ': 'me', 'モ': 'mo',
+                'ヤ': 'ya', 'ユ': 'yu', 'ヨ': 'yo',
+                'ラ': 'ra', 'リ': 'ri', 'ル': 'ru', 'レ': 're', 'ロ': 'ro',
+                'ワ': 'wa', 'ヲ': 'o/wo', 'ン': 'n'
+            };
+
+            const characters = Object.keys(kanaCharacters);
+            // Take 15 random characters from the combined list for the quiz
+            const shuffledCharacters = shuffleArray(characters).slice(0, 15);
+
+            // Function to shuffle an array
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            // Function to generate a quiz question
+            function createQuestion(character) {
+                const correctAnswer = kanaCharacters[character];
+                let options = [correctAnswer];
+                
+                // Add 3 random incorrect options
+                while (options.length < 4) {
+                    const randomChar = characters[Math.floor(Math.random() * characters.length)];
+                    const randomRomaji = kanaCharacters[randomChar];
+                    if (!options.includes(randomRomaji)) {
+                        options.push(randomRomaji);
+                    }
+                }
+                options = shuffleArray(options);
+
+                let questionHtml = `
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                        <p class="text-4xl font-bold text-center text-red-600 mb-4">${character}</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            ${options.map(option => `
+                                <label class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-gray-300 hover:bg-red-50 transition duration-150 cursor-pointer">
+                                    <input type="radio" name="question_${character}" value="${option}" class="text-red-600 focus:ring-red-500">
+                                    <span>${option}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                return questionHtml;
+            }
+
+            // Generate and display all questions
+            shuffledCharacters.forEach(char => {
+                questionsContainer.innerHTML += createQuestion(char);
+            });
+
+            // Handle form submission
+            quizForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                let score = 0;
+                let totalQuestions = shuffledCharacters.length;
+
+                shuffledCharacters.forEach(char => {
+                    const selectedOption = document.querySelector(`input[name="question_${char}"]:checked`);
+                    if (selectedOption && selectedOption.value === kanaCharacters[char]) {
+                        score++;
+                    }
+                });
+
+                resultsContainer.innerHTML = `You scored ${score} out of ${totalQuestions}!`;
+                
+                // Check if the user passed the quiz
+                if (score >= 10) {
+                    resultsContainer.classList.add('text-green-600');
+                    resultsContainer.classList.remove('text-red-600');
+                    kanjiMessage.classList.remove('hidden');
+                } else {
+                    resultsContainer.classList.add('text-red-600');
+                    resultsContainer.classList.remove('text-green-600');
+                    kanjiMessage.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

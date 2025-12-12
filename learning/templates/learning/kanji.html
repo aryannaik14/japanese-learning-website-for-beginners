@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanji Explorer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .nav-link:hover {
+            color: #dc2626; /* red-600 */
+        }
+        .card-link {
+            transition: all 0.3s ease;
+        }
+        .card-link:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100">
+    
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">日</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">NihonGo</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="flex-1 hidden md:flex justify-center space-x-8">
+                    <a href="{% url 'home' %}" class="nav-link text-gray-700 font-medium">Home</a>
+                    <a href="#" class="nav-link text-gray-700 font-medium">Features</a>
+                    <a href="#" class="nav-link text-gray-700 font-medium">About</a>
+                    <a href="#" class="nav-link text-gray-700 font-medium">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="pt-24 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Kanji Explorer</h1>
+                <p class="text-xl text-gray-600">Explore foundational kanji with readings and examples.</p>
+            </div>
+
+            <!-- Kanji Display Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                {% for kanji in kanji_list %}
+                    <div class="bg-white p-6 rounded-2xl shadow-md text-center flex flex-col items-center">
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="text-5xl font-bold text-red-600 mb-2">{{ kanji.kanji }}</div>
+                        </div>
+                        <div class="w-full text-left mt-4">
+                            <div class="mb-2">
+                                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Meaning</h3>
+                                <p class="text-lg font-medium text-gray-900">{{ kanji.meaning }}</p>
+                            </div>
+                            <div class="mb-2">
+                                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Onyomi</h3>
+                                <p class="text-lg font-medium text-gray-900">{{ kanji.onyomi }}</p>
+                                <p class="text-xs text-gray-600">{{ kanji.onyomi_example }} ({{ kanji.onyomi_example_reading }})</p>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Kunyomi</h3>
+                                <p class="text-lg font-medium text-gray-900">{{ kanji.kunyomi }}</p>
+                                <p class="text-xs text-gray-600">{{ kanji.kunyomi_example }} ({{ kanji.kunyomi_example_reading }})</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Continue Learning Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Continue Your Learning
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Solidify your foundation by reviewing kana and exploring grammar.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Hiragana Card -->
+                <a href="{% url 'hiragana' %}" class="card-link bg-white p-8 rounded-2xl block">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Master Hiragana</h3>
+                    <p class="text-gray-600 leading-relaxed">Review the fundamental Japanese script for native words and grammar.</p>
+                </a>
+                <!-- Katakana Card -->
+                <a href="{% url 'katakana' %}" class="card-link bg-white p-8 rounded-2xl block">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Practice Katakana</h3>
+                    <p class="text-gray-600 leading-relaxed">Strengthen your knowledge of the script used for foreign and loan words.</p>
+                </a>
+                <!-- Grammar Card -->
+                <a href="{% url 'grammar' %}" class="card-link bg-white p-8 rounded-2xl block">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Basic Grammar</h3>
+                    <p class="text-gray-600 leading-relaxed">Learn about sentence structure, particles, and essential grammar points.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">日</span>
+                        </div>
+                        <span class="text-xl font-bold">NihonGo</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Making Japanese character learning accessible and effective for absolute beginners.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'home' %}" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Flashcards</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'hiragana' %}" class="text-gray-400 hover:text-white">Hiragana Cards</a></li>
+                        <li><a href="{% url 'katakana' %}" class="text-gray-400 hover:text-white">Katakana Cards</a></li>
+                        <li><a href="{% url 'kanji' %}" class="text-gray-400 hover:text-white">N5 Kanji Cards</a></li>
+                        <li><a href="{% url 'quiz' %}" class="text-gray-400 hover:text-white">Practice Tests</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Learning Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 NihonGo. All rights reserved. Made with ❤️ for Japanese learners worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
