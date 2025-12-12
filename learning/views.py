@@ -65,7 +65,7 @@ def logout_view(request):
 
 def ai_helper_view(request):
     # Get your API key from a secure location.
-    api_key = 'AIzaSyCjWgOvicRBkRPHuy-1gjHpBAlVS8u9eNw'
+    api_key = ''
 
     if request.method == 'POST':
         try:
@@ -100,7 +100,7 @@ def ai_helper_view(request):
 
 def tts_view(request):
     # Get your API key from a secure location.
-    api_key = 'AIzaSyCjWgOvicRBkRPHuy-1gjHpBAlVS8u9eNw'
+    api_key = ''
 
     if request.method == 'POST':
         try:
@@ -258,4 +258,5 @@ def submit_quiz(request):
     
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 def grammar_page(request):
+
     return render(request, 'learning/grammar.html')
